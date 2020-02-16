@@ -2,7 +2,7 @@ import threading
 import board
 import serial
 
-from adafruit_pn532_uart import PN532_UART
+from drivers.adafruit_pn532_uart import PN532_UART
 
 class NFCScanner:
 	def __init__(self, verbose=0):
@@ -17,11 +17,10 @@ class NFCScanner:
 		self.card_detected_ev = threading.Event()
 		self.card_id = 0xDEADBEEF
 
-	def run(self):
+	def run_nfc_listener(self):
 		while True:
 			 # Check if a card is available to read
 			uid = self.pn532.read_passive_target(timeout=0.01)
-			print('.', end="")
 			# Try again if no card is available.
 			if uid is None:
 				continue
