@@ -31,10 +31,9 @@ def preprocess_transcript(response):
             conversation_over = True
         if "move_motor" in response['AllResults'][0]['Result']:
             print("MOVING ROTOR HERE")
-        if "needs_response" in response['AllResults'][0]['Result']:
-            print(response['AllResults'][0]['Result']["needs_response"])
-#            tclient = 
- #           rep = tclient.query()
+        if "silent" in response['AllResults'][0]['Result']:
+             tclient = houndify.TextHoundClient(clientId, clientKey, "test_user", requestInfo)
+             #tclient.query()
 
     say_aloud(response)
 
@@ -72,11 +71,9 @@ def say_aloud(response):
     #print(response['AllResults'][0]['SpokenResponse'])
 
 
-def listen_for_response(should_prepend, prepend_str):
+def listen_for_response():
     client = houndify.StreamingHoundClient(clientId, clientKey, "test_user", requestInfo)
     client.start(MedleyListener())
-    if should_prepend:
-        samples = prepend_str
     process = subprocess.Popen(['arecord', '-d', '7', '-t', 'raw', '-c', '1', '-r', '16000', '-f', 'S16_LE'], stdout=subprocess.PIPE)
     while True:
         samples = process.stdout.readline()
@@ -98,7 +95,7 @@ def start_chat(): # call this when button pressed
     say_aloud(welcome)
 
     while(conversation_over != True):
-        listen_for_response(False, user_id)
+        listen_for_response()
 
     goodbye = tclient.query(user_id + "bye_user_specific")
     say_aloud(goodbye)

@@ -9,7 +9,7 @@ H_DEBOUNCE_PERIOD_MILLIS = 5
 
 MOT_PIN = 12
 MOT_MIN_PWM_DUTY_CYCLE = 1
-MOT_MAX_PWM_DUTY_CYCLE = 10
+MOT_MAX_PWM_DUTY_CYCLE = 5
 
 PWM_INCREMENT = 1
 PWM_INCREMENT_PERIOD_MILLIS = 100
@@ -87,5 +87,5 @@ class RotorEncoder:
 				# rotor at target
 				self.motor_pwm_duty_cycle = 0
 			self.motor_pwm.ChangeDutyCycle(self.motor_pwm_duty_cycle)
-			print("{}->{} {}".format(self.rotor_pos, self.target_rotor_pos, self.motor_pwm_duty_cycle))
+			# print("{}->{} {}".format(self.rotor_pos, self.target_rotor_pos, self.motor_pwm_duty_cycle))
 

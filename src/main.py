@@ -6,7 +6,7 @@ from utils import *
 
 from nfc_service import NFCScanner
 from rotor_service import RotorEncoder
-from audio.medley_chat import *
+import medley_chat
 
 BT_PIN = 27
 BT_DEBOUNCE_MILLIS = 200
@@ -30,13 +30,16 @@ def main():
 	rotor_encoder_thread = threading.Thread(target=rotor_encoder.run_rotor_listener, daemon=True)
 	rotor_encoder_thread.start()
 
-	print("highhhh")
+	medley_chat.setup_chat_vars(nfc_scanner.scan_card, rotor_encoder.increment_rotor_pos)
+
+	print("Initialization Complete")
+	
 	while True:
 		if millis() - button_db_millis > BT_DEBOUNCE_MILLIS and not GPIO.input(BT_PIN):
 			button_db_millis = millis()
 			# print("target pos {}, current pos {}".format(rotor_encoder.target_rotor_pos, rotor_encoder.rotor_pos))
 			# rotor_encoder.increment_rotor_pos()
-			start_chat()
+			medley_chat.start_chat()
 		# 	if motor_pwm_duty_cycle < 100:
 		# 		motor_pwm_duty_cycle += 0.1
 		# else:
